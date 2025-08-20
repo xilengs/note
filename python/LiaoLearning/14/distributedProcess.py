@@ -1,0 +1,5 @@
+# 在Thread和Process中，应当优选Process，因为Process更稳定
+# 而且Process可以分布到多台机器上运行，而Thread只能在同一台机器上运行
+# python的multoprocessing模块不但支持多进程，其中managers子模块还支持把多进程分布到多台机器上
+# task_master.py是一个任务分发的master进程，负责分发任务到各个worker进程
+# 
