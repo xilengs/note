@@ -26,3 +26,56 @@ dd = defaultdict(lambda: 'N/A')
 dd['key1'] = 'value1'
 print(dd['key1'])  # 输出 'value1'
 print(dd['key2'])  # 输出 'N/A'，因为key2不存在，返回默认值'N/A'
+
+# OrdereedDict
+# dict是无序的，OrderedDict是有序的dict，保持插入顺序
+from collections import OrderedDict
+d = dict([('a', 1), ('b', 2), ('c', 3)])
+# OrderDict可以实现一个FIFO的dict，当容量超出限制时，先删除最早添加的Key
+class LastUpdateOrderedDict(OrderedDict):
+    def __init__(self, capacity):
+        super(LastUpdateOrderedDict,self).__init__()
+        self.capacity = capacity
+
+    def __setitem__(self, key, value):
+        containsKey = 1 if key in self else 0
+        if len(self) - containsKey >= self.capacity:
+            last = self.popitem(last = False)
+            print('remove:' , last)
+        if containsKey:
+            del self[key]
+            print('set:', (key, value))
+        else:
+            print('add', (key, value))
+        OrderedDict.__setitem__(self, key, value)
+
+# ChainMap
+# ChainMap可以一组dict串起来并组成一个逻辑上的dict。ChainMap本身也是一个dict，但查找的时候，会按照顺序在内部的dict依次查找
+from collections import ChainMap
+import os, argparse
+
+defaults = {
+    'color': 'red',
+    'user': 'guest'
+}
+
+parser = argparse.ArgumentParser()
+parser.add_argument('-u', '--user')
+parser.add_argument('-c', '--color')
+namespace = parser.parse_args()
+command_line_args = {k:v for k, v in vars(namespace).items() if v}
+combined = ChainMap(command_line_args, os.environ, defaults)
+
+print('color=%s' % combined['color'])
+print('user=%s' % combined['user'])
+
+# Counter
+# Counter是一个简答的计数器
+from collections import Counter
+c = Counter('programming')
+for ch in 'programming':
+    c[ch] = c[ch] + 1
+
+print(c)
+c.update('hello')
+print(c)

@@ -1,0 +1,9 @@
+# 加salt
+import hmac
+message = b'Hello, world!'
+key = b'secret'
+h = hmac.new(key, message, digestmod='MD5')
+# 如果消息很长，可以多次调用h.update(msg)
+print(h.hexdigest())
+h.update('python hmac'.encode('utf-8'))
+print(h.hexdigest())
