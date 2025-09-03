@@ -42,11 +42,12 @@ layer_sizes = [28*28, 128, 128, 128, 64, 10]
 weights = []
 biases = []
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+print(device)
 
 # in_size 上一层的神经元数
 # out_size 当前层的神经元数
 for in_size, out_size in zip(layer_sizes[:-1], layer_sizes[1:]):
-    W = torch.randn(in_size, out_size, device=device)
+    W = torch.randn(in_size, out_size, device=device) * torch.sqrt(torch.tensor(2/in_size))
     b = torch.zeros(out_size, device=device)
     weights.append(W)
     biases.append(b)
@@ -73,24 +74,26 @@ def cross_entropy(pred, labels):
     loss = -(one_hot * torch.log(pred + 1e-8)).sum() / N
     return loss, one_hot
 
-num_epochs = 1000
-learning_rate = 0.1
+num_epochs = 15
+learning_rate = 0.001
 
 # 训练循环
 for epoch in range(num_epochs):
     total_loss = 0
     for images, labels in train_loader:
         x = images.to(device)
-        print(x)
+        # print(x)
         y = labels.to(device)
         N = x.shape[0]
-        print(N)
+        # print(N)
 
         # 前向传播
         activations = [x]
         pre_acts = []
         for W, b in zip(weights[:-1], biases[:-1]):
+            # print(activations)
             z = activations[-1] @ W + b
+            # print(z)
             pre_acts.append(z)
             a = relu(z)
             activations.append(a)
@@ -100,6 +103,7 @@ for epoch in range(num_epochs):
         y_pred = softmax(z_out)
 
         # 损失
+        # cross_entropy交叉熵损失函数
         loss, one_hot = cross_entropy(y_pred, y)
         total_loss += loss.item()
 
