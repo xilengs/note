@@ -53,13 +53,14 @@ class Solution:
 # 长度最小的子数组
 class Solution:
     def minSubArrayLen(self, target, nums):
-        ans = 10 ** 5
+        ans = 10 ** 5 + 1
         n = len(nums)
         left = 0
         sum_val = 0
         for right in range(n):
             sum_val += nums[right]
-            while left <= right and sum_val >= target and (sum_val - nums[left]) >= target:
-                left += 1
+            while sum_val >= target:
+                sum_val = sum_val - nums[left]
                 ans = min(ans, right - left + 1)
+                left += 1
         return 0 if ans == 10 ** 5 else ans
