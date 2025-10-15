@@ -1,0 +1,12 @@
+In Python you can open and write to files using the built-in open() function.
+In Python you can read a file line-by-line or all at once with read(), readline(), or readlines().
+In Python you can use the with statement to automatically close files when done.
+In Python you can append to a file by opening it with mode 'a'.
+In Python you can create directories with os.makedirs() before writing files.
+In Python you can format strings with f-strings to create dynamic file content.
+In Python you can handle file-not-found errors using try/except blocks.
+In Python you can encode text (for example UTF-8) when opening files to support non-ASCII characters.
+In Python you can write binary data by opening files with mode 'wb'.
+In Python you can check if a file exists with pathlib.Path.exists() or os.path.exists().
+In Python you can iterate over a file object directly to process lines lazily.
+In Python you can use the csv and json modules to write structured data to files.
